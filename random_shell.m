@@ -3,7 +3,7 @@ clc
 
 %%%%%%%%%%%%%%% Inverse transform method %%%%%%%%%%%%%%%%%%%
 
-Nmod=10000; %Number of modes
+Nmod=10000000; %Number of modes
 Rin=11; % Internal radius
 Rout=19; % External radius
 
@@ -13,32 +13,16 @@ w=rand(Nmod,1);
 
 theta=zeros(Nmod,1);
 phi=zeros(Nmod,1);
-r=u;
+r=u.^(1/3);
 
 for i=1:Nmod % This generates random numbers uniformly over the surface of a sphere of radius 1
     theta(i)=acos(1-2*v(i));
     phi(i)=2*pi*w(i);
-    x(i)=sin(theta(i))*cos(phi(i));
-    y(i)=sin(theta(i))*sin(phi(i));
-    z(i)=cos(theta(i));
+    x(i)=r(i)*sin(theta(i))*cos(phi(i));
+    y(i)=r(i)*sin(theta(i))*sin(phi(i));
+    z(i)=r(i)*cos(theta(i));
 end
 
-plot3(x,y,z,'.')
-grid on
-axis equal
-xlabel('$x$','interpreter','latex','fontsize',20)
-ylabel('$y$','interpreter','latex','fontsize',20)
-zlabel('$z$','interpreter','latex','fontsize',20)
-title('Sampling numbers over the surface of a sphere of radius $1$ using the inverse transform method','interpreter','latex','fontsize',10)
-
-for i=1:Nmod % This rescales the numbers with the uniformly generated random number u inside the shell
-    x(i)=x(i)*(u(i))^(1/3);
-    y(i)=y(i)*(u(i))^(1/3);
-    z(i)=z(i)*(u(i))^(1/3);
-    r(i)=sqrt(x(i)^2+y(i)^2+z(i)^2);
-end
-
-figure
 plot3(x,y,z,'.')
 grid on
 axis equal
